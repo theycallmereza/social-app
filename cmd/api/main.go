@@ -7,15 +7,18 @@ import (
 	"log"
 )
 
+const version = "0.0.1"
+
 func main() {
 	cfg := config{
-		addr: env.GetEnvSString("ADDR", ":8080"),
+		addr: env.GetEnvString("ADDR", ":8080"),
 		db: dbConfig{
-			addr:         env.GetEnvSString("DB_ADDR", "postgres://admin:adminpassword@localhost/social?sslmode=disable"),
+			addr:         env.GetEnvString("DB_ADDR", "postgres://admin:adminpassword@localhost/social?sslmode=disable"),
 			maxOpenConns: env.GetEnvInt("DB_MAX_OPEN_CONNS", 30),
 			maxIdleConns: env.GetEnvInt("DB_MAX_IDLE_CONNS", 30),
-			maxIdleTime:  env.GetEnvSString("DB_MAX_IDLE_TIME", "15m"),
+			maxIdleTime:  env.GetEnvString("DB_MAX_IDLE_TIME", "15m"),
 		},
+		env: env.GetEnvString("ENV", "development"),
 	}
 
 	db, err := db.New(
