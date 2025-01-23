@@ -1,10 +1,26 @@
 package env
 
-import "os"
+import (
+	"os"
+	"strconv"
+)
 
-func GetEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
+func GetEnvSString(key, fallback string) string {
+	value, ok := os.LookupEnv(key)
+	if !ok {
+		return fallback
 	}
-	return fallback
+	return value
+}
+
+func GetEnvInt(key string, fallback int) int {
+	value, ok := os.LookupEnv(key)
+	if !ok {
+		return fallback
+	}
+	valueInt, err := strconv.Atoi(value)
+	if err != nil {
+		return fallback
+	}
+	return valueInt
 }
